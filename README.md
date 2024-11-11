@@ -14,8 +14,7 @@ A flexible and optimizable PPP (Predictive, Performance, and Precision) model us
 To get started with the PPP Model Project, clone this repository:
 
 ```bash
-git clone https://github.com/yourusername/PPP-Model.git
-
+git clone https://github.com/yourusername/PPP-ModelHub.git
 ```
 
 ## Requirements
