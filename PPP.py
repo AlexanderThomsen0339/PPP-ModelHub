@@ -6,8 +6,9 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 
-def Load_data():
+def load_data():
     print("Loading data...")
+    start_time = time.time()
     indicator_data = pd.read_excel('housing_data.xlsx', sheet_name='data')
     ppp_data = pd.read_excel('housing_data.xlsx', sheet_name='Ark1')
     print(f"Data loaded in {round(time.time() - start_time, 2)} seconds.")
@@ -53,15 +54,7 @@ def improvement_data(indicator_data, ppp_data):
 
     return train_data, test_data
 
-
-# Read and process data
-start_time = time.time()
-indicator_data, ppp_data = Load_data()
-train_data, test_data = improvement_data(indicator_data, ppp_data)
-
-if train_data is None or test_data is None:
-    print("Error in data processing. Cannot proceed with model training.")
-else:
+def train_model(train_data, test_data):
     # Prepare training and test data
     X_train = train_data.drop(columns=['PPP_VALUE', 'geo', 'STRUCTURE', 'STRUCTURE_ID', 'na_item', 'ppp_cat', 'OBS_FLAG', 'country_name'])
     y_train = train_data['PPP_VALUE']
@@ -119,3 +112,14 @@ else:
     plt.ylabel("Predicted")
     plt.title("Actual vs Predicted values")
     plt.show()
+
+    return best_model, mse, mae, rmse, r2, cv_scores
+
+# Main execution flow
+indicator_data, ppp_data = load_data()
+train_data, test_data = improvement_data(indicator_data, ppp_data)
+
+if train_data is None or test_data is None:
+    print("Error in data processing. Cannot proceed with model training.")
+else:
+    best_model, mse, mae, rmse, r2, cv_scores = train_model(train_data, test_data)
